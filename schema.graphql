@@ -1,0 +1,109 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Mutation {
+  createTest(input: CreateTestInput!): Test
+  deleteTest(input: DeleteTestInput!): Test
+  updateTest(input: UpdateTestInput!): Test
+}
+
+type Query {
+  getTest(id: String!): Test
+  listTests(filter: TableTestFilterInput, limit: Int, nextToken: String): TestConnection
+}
+
+type Subscription {
+  onCreateTest(id: String, password: String, username: String): Test @aws_subscribe(mutations : ["createTest"])
+  onDeleteTest(id: String, password: String, username: String): Test @aws_subscribe(mutations : ["deleteTest"])
+  onUpdateTest(id: String, password: String, username: String): Test @aws_subscribe(mutations : ["updateTest"])
+}
+
+type Test {
+  id: String!
+  password: String
+  username: String
+}
+
+type TestConnection {
+  items: [Test]
+  nextToken: String
+}
+
+input CreateTestInput {
+  password: String
+  username: String
+}
+
+input DeleteTestInput {
+  id: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableTestFilterInput {
+  id: TableStringFilterInput
+  password: TableStringFilterInput
+  username: TableStringFilterInput
+}
+
+input UpdateTestInput {
+  id: String!
+  password: String
+  username: String
+}
